@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MeterMonthly.ascx" />
     <Content Include="MetersRegistration.aspx" />
     <Content Include="WaterDaily.aspx" />
     <Content Include="ElectricityNightDaily.aspx" />
@@ -71,6 +72,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MeterMonthly.ascx.cs">
+      <DependentUpon>MeterMonthly.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MeterMonthly.ascx.designer.cs">
+      <DependentUpon>MeterMonthly.ascx</DependentUpon>
+    </Compile>
     <Compile Include="MetersRegistration.aspx.cs">
       <DependentUpon>MetersRegistration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

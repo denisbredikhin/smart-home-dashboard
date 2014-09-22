@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="MeterDaily.ascx.cs" Inherits="HomeDashboard.MeterDaily" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="MeterMonthly.ascx.cs" Inherits="HomeDashboard.MeterMonthly" %>
 
 <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
@@ -70,15 +70,7 @@
                 data: [
                     <%=chartData%>
                 ]
-            },
-            // the event marker flags
-			{
-            type : 'flags',
-            data : [<%=flagsData%>],
-            onSeries : 'dataseries',
-            shape : 'circlepin',
-            width : 16
-        }]
+            }]
         });
     });
 
