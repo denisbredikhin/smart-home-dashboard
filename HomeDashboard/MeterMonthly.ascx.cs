@@ -61,21 +61,6 @@ namespace HomeDashboard
 						}
 					}
 
-					using (var command = connection.CreateCommand()) {
-						command.CommandText = commandText2;
-						using (var reader = command.ExecuteReader()) {
-							while (reader.Read()) {
-								var date = reader.GetDateTime(0);
-								var description = reader.GetString(1);
-								flagsDataBuilder.AppendFormat("{{x : Date.UTC({0}, {1}, {2}), title : '{3}', text : '{4}'}}, ",
-									date.Year, date.Month-1, date.Day, description.Substring(0, 2), description);
-
-							}
-							reader.Close();
-
-						}
-					}
-
 				}
 				finally {
 					if (connection.State == ConnectionState.Open)
@@ -92,7 +77,6 @@ namespace HomeDashboard
 			minDay = minDate.Day.ToString();
 
 			chartData = string.Join(", ", values.Select(v => v.ToString("0.##", CultureInfo.InvariantCulture)));
-			flagsData = flagsDataBuilder.ToString();
 		}
 	}
 }
