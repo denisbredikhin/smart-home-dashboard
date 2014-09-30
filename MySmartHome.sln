@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeDashboard", "HomeDashboard\HomeDashboard.csproj", "{67004B52-86C3-47A8-AAF2-77BA86659F20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViessmannControl", "Viessmann300\ViessmannControl.csproj", "{6D116B87-6D39-4A06-AEB5-BB9D9364E96A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViessmannControlTest", "ViessmannControlTest\ViessmannControlTest.csproj", "{BC8F27EA-5A3B-427B-A8D1-4E237F628A7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{67004B52-86C3-47A8-AAF2-77BA86659F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67004B52-86C3-47A8-AAF2-77BA86659F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67004B52-86C3-47A8-AAF2-77BA86659F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D116B87-6D39-4A06-AEB5-BB9D9364E96A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D116B87-6D39-4A06-AEB5-BB9D9364E96A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D116B87-6D39-4A06-AEB5-BB9D9364E96A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D116B87-6D39-4A06-AEB5-BB9D9364E96A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8F27EA-5A3B-427B-A8D1-4E237F628A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8F27EA-5A3B-427B-A8D1-4E237F628A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8F27EA-5A3B-427B-A8D1-4E237F628A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8F27EA-5A3B-427B-A8D1-4E237F628A7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
