@@ -155,10 +155,6 @@
 			this.TextBox08A7 = new System.Windows.Forms.TextBox();
 			this.label23 = new System.Windows.Forms.Label();
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.checkBox1 = new System.Windows.Forms.CheckBox();
-			this.btn_select_kein = new System.Windows.Forms.Button();
-			this.btn_select_alle = new System.Windows.Forms.Button();
-			this.button14 = new System.Windows.Forms.Button();
 			this.mydataGridView1 = new System.Windows.Forms.DataGridView();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
@@ -1559,10 +1555,6 @@
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.Controls.Add(this.checkBox1);
-			this.tabPage2.Controls.Add(this.btn_select_kein);
-			this.tabPage2.Controls.Add(this.btn_select_alle);
-			this.tabPage2.Controls.Add(this.button14);
 			this.tabPage2.Controls.Add(this.mydataGridView1);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
 			this.tabPage2.Name = "tabPage2";
@@ -1571,51 +1563,6 @@
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Daten";
 			this.tabPage2.UseVisualStyleBackColor = true;
-			// 
-			// checkBox1
-			// 
-			this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(48, 399);
-			this.checkBox1.Name = "checkBox1";
-			this.checkBox1.Size = new System.Drawing.Size(120, 17);
-			this.checkBox1.TabIndex = 24;
-			this.checkBox1.Text = "Datendatei erstellen";
-			this.checkBox1.UseVisualStyleBackColor = true;
-			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-			// 
-			// btn_select_kein
-			// 
-			this.btn_select_kein.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btn_select_kein.Location = new System.Drawing.Point(3, 453);
-			this.btn_select_kein.Name = "btn_select_kein";
-			this.btn_select_kein.Size = new System.Drawing.Size(75, 23);
-			this.btn_select_kein.TabIndex = 16;
-			this.btn_select_kein.Text = "Sel. kein";
-			this.btn_select_kein.UseVisualStyleBackColor = true;
-			this.btn_select_kein.Click += new System.EventHandler(this.btn_select_kein_Click);
-			// 
-			// btn_select_alle
-			// 
-			this.btn_select_alle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btn_select_alle.Location = new System.Drawing.Point(3, 424);
-			this.btn_select_alle.Name = "btn_select_alle";
-			this.btn_select_alle.Size = new System.Drawing.Size(75, 23);
-			this.btn_select_alle.TabIndex = 15;
-			this.btn_select_alle.Text = "Sel. alle";
-			this.btn_select_alle.UseVisualStyleBackColor = true;
-			this.btn_select_alle.Click += new System.EventHandler(this.btn_select_alle_Click);
-			// 
-			// button14
-			// 
-			this.button14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.button14.Location = new System.Drawing.Point(356, 399);
-			this.button14.Name = "button14";
-			this.button14.Size = new System.Drawing.Size(91, 23);
-			this.button14.TabIndex = 7;
-			this.button14.Text = "leere Tabelle";
-			this.button14.UseVisualStyleBackColor = true;
-			this.button14.Click += new System.EventHandler(this.button14_Click);
 			// 
 			// mydataGridView1
 			// 
@@ -1648,9 +1595,8 @@
 			dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.mydataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-			this.mydataGridView1.Size = new System.Drawing.Size(865, 382);
+			this.mydataGridView1.Size = new System.Drawing.Size(976, 479);
 			this.mydataGridView1.TabIndex = 2;
-			this.mydataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
 			// 
 			// toolStrip1
 			// 
@@ -1790,7 +1736,6 @@
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
-			this.tabPage2.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.mydataGridView1)).EndInit();
 			this.toolStrip1.ResumeLayout(false);
 			this.toolStrip1.PerformLayout();
@@ -1849,11 +1794,7 @@
         internal System.Windows.Forms.Label label44;
         internal System.Windows.Forms.TextBox TextBox08A7;
         internal System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Button btn_select_kein;
-        private System.Windows.Forms.Button btn_select_alle;
-				private System.Windows.Forms.Button button14;
+				private System.Windows.Forms.TabPage tabPage2;
 				private System.Windows.Forms.DataGridView mydataGridView1;
 				private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton3;

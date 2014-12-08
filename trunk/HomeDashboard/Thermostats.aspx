@@ -7,7 +7,58 @@
 <head runat="server">
     <title>Температура дома</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
     <link href='Styles/Common.css' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+        setInterval(function () {
+            $.get("../ThermostatsData.hnd", function (data) {
+
+                $("tr.dataRow").each(function () {
+                    $this = $(this);
+                    var deviceName = $this.find("td.deviceName").html();
+                    var deviceTemp = $this.find("td.deviceTemp").html();
+                    var deviceBattery = $this.find("div.deviceBattery").html();
+
+                    var newTemp;
+                    var newBattery;
+
+                    data.forEach(function(entry) {
+                        var deviceNameNew = entry.DeviceName;
+                        var valueName = entry.ValueName;
+                        var val = entry.Value;
+
+                        if (deviceName == deviceNameNew) {
+                            if (valueName == 'Heating 1')
+                                newTemp = val;
+                            else if (valueName == 'Battery Level')
+                                newBattery = val;
+                        }
+                    });
+                
+                    $this.find("td.deviceTemp").html(newTemp+"&deg;C");
+                    var batteryDiv = $this.find("div.deviceBattery");
+                    batteryDiv.html(newBattery + "%");
+                    batteryDiv.width(newBattery + "%");
+                    //alert("Device name: " + deviceName);
+                    //alert("Old temp: " + deviceTemp);
+                    //alert("New temp: " + newTemp);
+                    //alert("Old battery: " + deviceBattery);
+                    //alert("New battery: " + newBattery);
+                });
+
+                /*data.forEach(function (entry) {
+                    var deviceName = entry.DeviceName;
+                    var valueName = entry.ValueName;
+                    var val = entry.Value;
+                    //alert("Device name: " + deviceName);
+                    //alert("Value name: " + valueName);
+                    //alert("Value: " + val);
+                    //alert(JSON.stringify(entry));
+                });*/
+                //alert(JSON.stringify(data));
+            });
+        }, 60000);
+    </script>
     <style>
         .datagrid table 
         { border-collapse: collapse; text-align: left; width: 100%; } 

@@ -42,7 +42,7 @@ namespace HomeDashboard
 			var values = new List<double>();
 			var minDate = now;
 			var flagsDataBuilder = new StringBuilder();
-			using (var connection = new SqlConnection("Server=localhost;Database=HomeData;Trusted_Connection=True;")) {
+			using (var connection = new SqlConnection(Constants.ConnectionString)) {
 				try {
 					connection.Open();
 					using (var command = connection.CreateCommand()) {
