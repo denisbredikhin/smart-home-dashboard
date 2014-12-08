@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataHandling.cs" />
+    <Compile Include="Enums\DataPoint.cs" />
+    <Compile Include="Enums\OperatingData.cs" />
     <Compile Include="Form_Main.cs">
       <SubType>Form</SubType>
     </Compile>

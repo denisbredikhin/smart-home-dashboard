@@ -4,9 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace HomeDashboard
 {
@@ -16,7 +13,7 @@ namespace HomeDashboard
 
 		private string batteryHtml = "<div class=\"container\">"+
     "<div id=\"batteryBody\">"+
-        "<div id=\"indicator\" style=\"width:{0}%\">"+
+				"<div id=\"indicator\" style=\"width:{0}%\" class='deviceBattery'>" +
 				"{0}%"+
          "</div>"+
     "</div>"+
@@ -36,7 +33,7 @@ namespace HomeDashboard
 			var tempByDevice = new Dictionary<string, double>();
 			var batteryByDevice = new Dictionary<string, double>();
 			var devices = new HashSet<string>();
-			using (var connection = new SqlConnection("Server=localhost;Database=HomeData;Trusted_Connection=True;")) {
+			using (var connection = new SqlConnection(Constants.ConnectionString)) {
 				try {
 					connection.Open();
 					using (var command = connection.CreateCommand()) {
@@ -74,9 +71,9 @@ namespace HomeDashboard
 			var sb = new StringBuilder();
 
 			foreach (var device in sortedDevices) {
-				sb.Append("<tr>");
-				sb.AppendFormat("<td>{0}</td>", device);
-				sb.AppendFormat("<td>{0}</td>", tempByDevice.ContainsKey(device) ? tempByDevice[device].ToString() + "&deg;C" : "?");
+				sb.Append("<tr class='dataRow'>");
+				sb.AppendFormat("<td class='deviceName'>{0}</td>", device);
+				sb.AppendFormat("<td class='deviceTemp'>{0}</td>", tempByDevice.ContainsKey(device) ? tempByDevice[device].ToString() + "&deg;C" : "?");
 				sb.AppendFormat("<td>{0}</td>", string.Format(batteryHtml, (batteryByDevice.ContainsKey(device) ? batteryByDevice[device].ToString() : "0")));
 				sb.Append("</tr>");
 

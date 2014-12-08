@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ViessmannControl
 {
@@ -55,6 +56,7 @@ namespace ViessmannControl
 		    return ((byte)(CRCsum%0x100));
 	    }
 
+
 			private bool CheckInputBufferCrc()
 			{
 				return (calc_CRC(portInputBuffer) == portInputBuffer[(portInputBuffer[2] + 3) % 0x100]);
@@ -64,7 +66,7 @@ namespace ViessmannControl
 	    {
 	    }
 
-	    private int connectionState = 0;
+	    //private int connectionState = 0;
 	    public void ReadData(Action readCompleted)
 	    {
 		    /*OpenPort();
@@ -432,7 +434,100 @@ namespace ViessmannControl
 				}  //switch*/
 	    }
 
-			public Protocol300Boiler(Protocol300BoilerConnectionConfiguration config)
+			private void SendParameter(DataPoint dataPoint, byte value)
+			{
+				var address = (byte)dataPoint;
+				portOutputBuffer[0] = 0x41; // Telegrammstart
+				portOutputBuffer[1] = 0x06; // Nutzdaten, hier 6
+				portOutputBuffer[2] = 0x00; // Anfrage
+				portOutputBuffer[3] = 0x02; // Schreiben
+				portOutputBuffer[4] = (byte)(address >> 8);
+				portOutputBuffer[5] = (byte)(address % 0x100);
+				portOutputBuffer[6] = 0x01; // Länge mit de hex wandlung
+				portOutputBuffer[7] = value;
+				portOutputBuffer[8] = calc_CRC(portOutputBuffer);
+				if (!serialPort.IsOpen)
+					OpenPort();
+				serialPort.Write(portOutputBuffer, 0, 9); // Buffer senden
+			}
+
+			public void SetOperatingData(OperatingData boilerStatus)
+			{
+				SendParameter(DataPoint.OperatingData, (byte)boilerStatus);
+			}
+
+	    public void SetRoomTemperatureStandard(byte temperature)
+	    {
+				if (temperature<3 || temperature>37)
+					throw new ArgumentOutOfRangeException("temperature");
+				SendParameter(DataPoint.SetRoomTemperatureStandard, temperature);
+	    }
+
+	    private bool isConnected;
+	    private int connectionStatus = 0;
+	    public void Connect()
+	    {
+				if (!serialPort.IsOpen)
+					OpenPort();
+
+				var ibo = inputBufferOffset;
+				inputBufferOffset = 0;
+		    switch (connectionStatus) {
+			    case 0:
+				    if (ibo==0) portInputBuffer[0] = 0x04;
+
+				    switch (portInputBuffer[0]) {
+					    case 0x05:
+						    portOutputBuffer[0] = 0x16;
+								portOutputBuffer[1] = 0x00;
+								portOutputBuffer[2] = 0x00;
+						    serialPort.Write(portOutputBuffer, 0, 3); // Buffer, ab 0, von 0 bis 2, = 3 Bytes senden
+						    Thread.Sleep(50);
+						    Connect();
+						    break;
+					    case 0x06:
+								portOutputBuffer[0] = 0x41;
+								portOutputBuffer[1] = 0x05;
+								portOutputBuffer[2] = 0x00;
+								portOutputBuffer[3] = 0x01;
+								portOutputBuffer[4] = 0x00;
+								portOutputBuffer[5] = 0xF8;
+						    portOutputBuffer[6] = 0x02; // Ich erwarte 2 Zeichen 
+								portOutputBuffer[7] = calc_CRC(portOutputBuffer);
+								connectionStatus = 1;
+								serialPort.Write(portOutputBuffer, 0, 8);
+						    Thread.Sleep(50);
+						    Connect();
+						    break;
+					    default:
+								portOutputBuffer[0] = 0x04;
+						    serialPort.Write(portOutputBuffer, 0, 1); // Buffer, ab 0, 1 Byte senden
+						    Thread.Sleep(50);
+						    Connect();
+						    break;
+				    }
+				    break;
+					case 1: // 1 = ich wartete auf Anlagenkennung 
+						if ((portInputBuffer[0] != 0x06) | (ibo == 0) | (!(CheckInputBufferCrc()))) {
+							connectionStatus = 0;
+							break;
+						}
+				    break;
+					default:
+				    throw new NotSupportedException();
+		    }
+
+		    Thread.Sleep(25);
+
+		    isConnected = true;
+	    }
+
+	    public void Disconnect()
+	    {
+				serialPort.Close();
+	    }
+
+	    public Protocol300Boiler(Protocol300BoilerConnectionConfiguration config)
 	    {
 				configuration = config;
 				serialPort.DataReceived += serialPort_DataReceived;

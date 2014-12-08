@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ViessmannControl;
 using V_comm_DLL;
@@ -11,6 +13,8 @@ namespace ViessmannControlTest
 {
 	class Program
 	{
+		private const string ComPort = "COM1";
+		
 		private static void Main(string[] args)
 		{
 			/*var comm = new v_comm();
@@ -29,14 +33,65 @@ namespace ViessmannControlTest
 			}
 			Console.ReadKey();*/
 
+			//ChangeCurrentTemp();
+			//	return;
+
+			var task = Task.Factory.StartNew(UsbIpWatchDog);
+
+			//var task2 = Task.Factory.StartNew(UsbIpWatchDog);
+
 			var form = new MainForm(new Protocol300BoilerConnectionConfiguration() {
-				PortName = "COM1",
+				PortName = ComPort,
 				BaudRate = 4800,
 				DataBits = 8,
 				Parity = Parity.Even,
 				StopBits = StopBits.Two
 			});
 			form.ShowDialog();
+
+			var usbipProcess = Process.GetProcessesByName("usbip").FirstOrDefault();
+			if (usbipProcess != null)
+				usbipProcess.Kill();
+
+			while (Process.GetProcessesByName("usbip").Length > 0)
+				Thread.Sleep(100);
+		}
+
+		private static void ChangeCurrentTemp()
+		{
+			var boiler = new Protocol300Boiler(new Protocol300BoilerConnectionConfiguration() {
+				PortName = ComPort,
+				BaudRate = 4800,
+				DataBits = 8,
+				Parity = Parity.Even,
+				StopBits = StopBits.Two
+			});
+			boiler.Connect();
+			boiler.SetRoomTemperatureStandard(12);
+			boiler.Disconnect();
+		}
+
+		private static void UsbIpWatchDog()
+		{
+			while (true) {
+				Thread.Sleep(TimeSpan.FromSeconds(3));
+				// check that com port exits
+				if (SerialPort.GetPortNames().Contains(ComPort)) {
+					continue;
+				}
+
+				// check if usbip is started
+				var usbipProcess = Process.GetProcessesByName("usbip").FirstOrDefault();
+				if (usbipProcess!=null)
+					usbipProcess.Kill();
+				while (Process.GetProcessesByName("usbip").Length>0)
+					Task.Delay(10);
+
+				Process.Start(new ProcessStartInfo(@"D:\Soft\usbip_windows_v0.2.0.0_signed\usbip.exe", "-a 192.168.0.157 1-1") {
+					WorkingDirectory = @"D:\Soft\usbip_windows_v0.2.0.0_signed"
+				});
+				Thread.Sleep(TimeSpan.FromSeconds(10));
+			}
 		}
 	}
 }

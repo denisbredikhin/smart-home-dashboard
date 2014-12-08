@@ -33,7 +33,7 @@ namespace HomeDashboard
 				" (@date, @gas, @electrDay, @electrNight, @water)");
 			var maxDateCommandText = "SELECT MAX([Date]) FROM [Meters]";
 
-			using (var connection = new SqlConnection("Server=localhost;Database=HomeData;Trusted_Connection=True;")) {
+			using (var connection = new SqlConnection(Constants.ConnectionString)) {
 				try {
 					connection.Open();
 					DateTime lastDate = now;

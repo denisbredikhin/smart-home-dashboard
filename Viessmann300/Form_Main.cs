@@ -926,71 +926,8 @@ namespace ViessmannControl
 
 		#endregion
 
-		#region tabPage0 Event-Handler
-
-
-
-		#endregion
 
 		#region tabPage1 Event-Handler
-
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
-		{
-			// Wenn die Datei vorhanden war ggf. löschen, anschließend mit 1. Zeile neu erstellen
-			if (checkBox1.Checked) {
-
-				if (File.Exists(DataFilename)) {
-					DialogResult result1 = MessageBox.Show("Datei "+DataFilename+" überschreiben?",
-						"Alle Daten gehen verloren!!", MessageBoxButtons.YesNo);
-					if (result1==DialogResult.Yes) {
-							File.Delete(DataFilename);
-					}
-					else {
-						return;
-					}
-				}
-					using (FileStream File_Stream = new FileStream(DataFilename, FileMode.Append, FileAccess.Write, FileShare.Write)) {
-						using (StreamWriter Stream_Writer = new StreamWriter(File_Stream)) {
-							Stream_Writer.Write(System.DateTime.Now.ToString(";"+"yyyy-MM-dd")+";");
-							for (int j = 0; j<mydataGridView1.RowCount; j++) {
-								if (mydataGridView1["Sp.", j].Value.ToString()=="1") // Wenn selektiert dann..
-								{
-									Stream_Writer.Write(mydataGridView1["addr", j].Value.ToString()+";");
-								}
-							}
-							Stream_Writer.Write("\r\n"); // \r=return \n=newline
-						}
-						File_Stream.Close();
-					}
-			}
-		}
-
-		private void btn_select_alle_Click(object sender, EventArgs e)
-		{
-			// selektiere alle
-			for (int i = 0; i<mydataGridView1.RowCount; i++) {
-				mydataGridView1["Akt.", i].Value = "1";
-			}
-		}
-
-		private void btn_select_kein_Click(object sender, EventArgs e)
-		{
-			// selektiere kein
-			for (int i = 0; i<mydataGridView1.RowCount; i++) {
-				mydataGridView1["Akt.", i].Value = "0";
-
-			}
-		}
-
-		private void button14_Click(object sender, EventArgs e)
-		{
-			for (int i = 0; i<mydataGridView1.RowCount; i++) {
-				mydataGridView1["Wert_Val", i].Value = 0; // null;
-				mydataGridView1["Wert_Hex", i].Value = 0; // null;
-				mydataGridView1["Wert_Dez", i].Value = 0; //  null;
-			}
-		}
-
 
 
 
@@ -1369,22 +1306,6 @@ namespace ViessmannControl
 			}
 		}
 
-		private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
-			// Klick in eine Zelle auswerten
-			//String msg = String.Format("Row: {0}, Column: {1} Checked: {2}", mydataGridView1.CurrentCell.RowIndex, mydataGridView1.CurrentCell.ColumnIndex, mydataGridView1.CurrentCell.Value);
-			//     MessageBox.Show(msg, "Current Cell");
-
-			// wenn die Daten gespeichert werden sollen und es wurde ein Selectfeld verändert, muss eine neue Dateie erstellt werden
-			if (mydataGridView1.CurrentCell.ColumnIndex==0) // Wenn selektiert dann..
-			{
-				checkBox1.Checked = false;
-				//if (mydataGridView1.Columns["Akt."].State == true) mydataGridView1["Akt.", mydataGridView1.CurrentCell.RowIndex].Value = "0";
-			}
-
-
-		}
-
 		#endregion
 
 		public void Lese_Steuerungen()
@@ -1518,33 +1439,6 @@ namespace ViessmannControl
 			this.toolStripComboBox2.Items.AddRange(new object[]
 			{"1h", "6h", "12h", "1Tag", "2Tage", "3Tage", "4Tage", "5Tage", "6Tage", "7Tage"});
 			//     this.toolStripComboBox2.SelectedIndex = this.toolStripComboBox2.Items.IndexOf("1Tag"); //Voreinstellung
-		}
-
-		private void Fill_Zeiten(string Adresse)
-		{
-			Reihe_Zeiten = 0; // Anfangswert starten
-
-			while (mydataGridView1["addr", Reihe_Zeiten].Value.ToString()!=Adresse) {
-				Reihe_Zeiten++;
-			}
-
-			int pos = 0;
-			for (int i = 0; i<=55; i++) {
-				if (mydataGridView1["Wert_Hex", Reihe_Zeiten].Value==null) {
-					this.tabControl1.Controls.Find("TextBox"+Convert.ToString(i+100), true)[0].Text = "n.v.";
-				}
-				else {
-					this.tabControl1.Controls.Find("TextBox"+Convert.ToString(i+100), true)[0].Text = TextReturn(pos);
-				}
-
-				pos++;
-				if (pos==8) {
-					Reihe_Zeiten = Reihe_Zeiten+pos;
-					pos = 0;
-				}
-			}
-
-			Reihe_Zeiten = 0; // Anfangswert wieder setzen
 		}
 
 		private string TextReturn(int pos)
