@@ -6,11 +6,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Температура дома</title>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css' />
     <script type='text/javascript' src='//code.jquery.com/jquery-1.9.1.js'></script>
-    <link href='Styles/Common.css' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='//cdn.jsdelivr.net/rangeslider.js/0.3.7/rangeslider.js'></script>
+    <link href='Styles/Common.css' rel='stylesheet' type='text/css' />
+    <link href='//cdn.jsdelivr.net/rangeslider.js/0.3.7/rangeslider.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript">
+        $("input[type=range]").bind("onchange", function (value) {
+            alert(value);
+        });
+
+        $('input[type=range]').rangeslider();
         setInterval(function () {
+            UpdateData();
+        }, 60000);
+
+        function UpdateData()
+        {
             $.get("../ThermostatsData.hnd", function (data) {
 
                 $("tr.dataRow").each(function () {
@@ -22,7 +34,7 @@
                     var newTemp;
                     var newBattery;
 
-                    data.forEach(function(entry) {
+                    data.forEach(function (entry) {
                         var deviceNameNew = entry.DeviceName;
                         var valueName = entry.ValueName;
                         var val = entry.Value;
@@ -34,30 +46,15 @@
                                 newBattery = val;
                         }
                     });
-                
-                    $this.find("td.deviceTemp").html(newTemp+"&deg;C");
+
+                    $this.find("td.deviceTemp").html(newTemp + "&deg;C");
                     var batteryDiv = $this.find("div.deviceBattery");
                     batteryDiv.html(newBattery + "%");
                     batteryDiv.width(newBattery + "%");
-                    //alert("Device name: " + deviceName);
-                    //alert("Old temp: " + deviceTemp);
-                    //alert("New temp: " + newTemp);
-                    //alert("Old battery: " + deviceBattery);
-                    //alert("New battery: " + newBattery);
                 });
-
-                /*data.forEach(function (entry) {
-                    var deviceName = entry.DeviceName;
-                    var valueName = entry.ValueName;
-                    var val = entry.Value;
-                    //alert("Device name: " + deviceName);
-                    //alert("Value name: " + valueName);
-                    //alert("Value: " + val);
-                    //alert(JSON.stringify(entry));
-                });*/
-                //alert(JSON.stringify(data));
             });
-        }, 60000);
+        }
+
     </script>
     <style>
         .datagrid table 
@@ -123,8 +120,11 @@
             </table>
         </div>
         <div style="text-align:center;margin-top:20px;width:100%">
-         <a class="btn" href="Menu.html">Назад</a>
+            <a class="btn" href="Menu.html">Назад</a>
+            &nbsp;
+            <a class="btn" href="#" onclick="UpdateData(); return false;">Обновить</a>
         </div>
+        
     </form>
 </body>
 </html>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 using ViessmannControl;
 using V_comm_DLL;
 
@@ -36,7 +37,7 @@ namespace ViessmannControlTest
 			//ChangeCurrentTemp();
 			//	return;
 
-			var task = Task.Factory.StartNew(UsbIpWatchDog);
+			//var task = Task.Factory.StartNew(UsbIpWatchDog);
 
 			//var task2 = Task.Factory.StartNew(UsbIpWatchDog);
 
@@ -49,12 +50,12 @@ namespace ViessmannControlTest
 			});
 			form.ShowDialog();
 
-			var usbipProcess = Process.GetProcessesByName("usbip").FirstOrDefault();
+			/*var usbipProcess = Process.GetProcessesByName("usbip").FirstOrDefault();
 			if (usbipProcess != null)
 				usbipProcess.Kill();
 
 			while (Process.GetProcessesByName("usbip").Length > 0)
-				Thread.Sleep(100);
+				Thread.Sleep(100);*/
 		}
 
 		private static void ChangeCurrentTemp()
@@ -66,9 +67,12 @@ namespace ViessmannControlTest
 				Parity = Parity.Even,
 				StopBits = StopBits.Two
 			});
-			boiler.Connect();
-			boiler.SetRoomTemperatureStandard(12);
-			boiler.Disconnect();
+			boiler.Connect(() => {
+				Thread.Sleep(1000);
+				boiler.SetRoomTemperatureStandard(12);
+				boiler.Disconnect();
+			});
+			Thread.Sleep(TimeSpan.FromMinutes(5));
 		}
 
 		private static void UsbIpWatchDog()

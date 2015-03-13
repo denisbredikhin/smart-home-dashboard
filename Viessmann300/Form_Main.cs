@@ -498,10 +498,12 @@ namespace ViessmannControl
 
 		private void t1_Tick(object sender, EventArgs e)
 		{
+			
 			// es kam eine bestimmte Zeit kein Zeichen mehr. Timer1 ist abgelaufen
 			string zeichen1 = "";
 
 			t1.Stop(); // definierten Zustand des Timers
+			//return;
 			t2.Stop(); // Automatic=zyklische Abfrage  stop
 			int M_S_I_B_Z = My_Serial_Input_Buffer_Zeiger; // wie viele Zeichen waren es?
 			My_Serial_Input_Buffer_Zeiger = 0; // Für das nächste Telegramm  
@@ -572,6 +574,7 @@ namespace ViessmannControl
 							this.toolStripLabel2.BackColor = Color.LightGreen;
 							Ser_Uebertragungsstatus = 2;
 						}
+						//return;
 						// bis zum 1. selektierten springen
 						if (Reihe>=mydataGridView1.RowCount) Reihe = 0;
 
@@ -636,6 +639,7 @@ namespace ViessmannControl
 					break;
 
 				case 2:
+					//return;
 					// hier kommt Wert für Wert rein
 					if ((My_Serial_Input_Buffer[0]==0x06) // Status ok
 						//& (My_Serial_Input_Buffer[3] == 0x01)  //Antwort ohne Fehler

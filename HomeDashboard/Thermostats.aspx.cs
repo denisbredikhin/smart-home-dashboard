@@ -71,9 +71,11 @@ namespace HomeDashboard
 			var sb = new StringBuilder();
 
 			foreach (var device in sortedDevices) {
+				var val = tempByDevice.ContainsKey(device) ? tempByDevice[device].ToString() : "?";
+				var valStr = val+"&deg;C";
 				sb.Append("<tr class='dataRow'>");
 				sb.AppendFormat("<td class='deviceName'>{0}</td>", device);
-				sb.AppendFormat("<td class='deviceTemp'>{0}</td>", tempByDevice.ContainsKey(device) ? tempByDevice[device].ToString() + "&deg;C" : "?");
+				sb.AppendFormat("<td class='deviceTemp'><input type='range' value={0} min=10 max=28 step=0.5>{1}</td>", val, valStr);
 				sb.AppendFormat("<td>{0}</td>", string.Format(batteryHtml, (batteryByDevice.ContainsKey(device) ? batteryByDevice[device].ToString() : "0")));
 				sb.Append("</tr>");
 
