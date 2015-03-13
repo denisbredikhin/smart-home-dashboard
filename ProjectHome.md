@@ -1,0 +1,1 @@
+Private project for home automation system dashboard
