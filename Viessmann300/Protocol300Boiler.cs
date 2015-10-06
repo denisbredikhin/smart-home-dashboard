@@ -85,7 +85,7 @@ namespace ViessmannControl
 
 			private void SendParameter(DataPoint dataPoint, byte value)
 			{
-				var address = (byte)dataPoint;
+				var address = (ushort)dataPoint;
 				portOutputBuffer[0] = 0x41; // Telegrammstart
 				portOutputBuffer[1] = 0x06; // Nutzdaten, hier 6
 				portOutputBuffer[2] = 0x00; // Anfrage
