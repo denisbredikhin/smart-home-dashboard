@@ -272,6 +272,7 @@ namespace ViessmannControl
 
 	    public void Disconnect()
 	    {
+				t1.Stop();
 				serialPort.Close();
 	    }
 
