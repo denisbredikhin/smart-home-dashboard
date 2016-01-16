@@ -14,7 +14,7 @@ namespace ViessmannControlTest
 {
 	class Program
 	{
-		private const string ComPort = "COM1";
+		private const string ComPort = "COM42";
 		
 		private static void Main(string[] args)
 		{
@@ -34,8 +34,8 @@ namespace ViessmannControlTest
 			}
 			Console.ReadKey();*/
 
-			//ChangeCurrentTemp();
-			//	return;
+			ChangeCurrentTemp();
+				return;
 
 			//var task = Task.Factory.StartNew(UsbIpWatchDog);
 
@@ -69,7 +69,7 @@ namespace ViessmannControlTest
 			});
 			boiler.Connect(() => {
 				Thread.Sleep(1000);
-				boiler.SetRoomTemperatureStandard(12);
+				boiler.SetRoomTemperatureStandard(21);
 				boiler.Disconnect();
 			});
 			Thread.Sleep(TimeSpan.FromMinutes(5));

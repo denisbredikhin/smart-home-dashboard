@@ -32,11 +32,16 @@ namespace ViessmannControl
 
 			private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
 			{
-				var butesToRead = serialPort.BytesToRead; // puffern, da BytesToRead nach lesen = 0
-				serialPort.Read(portInputBuffer, inputBufferOffset, butesToRead);
-				inputBufferOffset = inputBufferOffset + butesToRead;
-				//Inner_Connect();
-				Timer1_Trigger();  // Timer triggern solange Daten ankommen
+				try {
+					var butesToRead = serialPort.BytesToRead; // puffern, da BytesToRead nach lesen = 0
+					serialPort.Read(portInputBuffer, inputBufferOffset, butesToRead);
+					inputBufferOffset = inputBufferOffset+butesToRead;
+					//Inner_Connect();
+					Timer1_Trigger(); // Timer triggern solange Daten ankommen
+				}
+				catch (Exception ex) {
+					Console.WriteLine("Error while reading data from port: {0}", ex.Message);
+				}
 			}
 
 			private void Timer1_Trigger()

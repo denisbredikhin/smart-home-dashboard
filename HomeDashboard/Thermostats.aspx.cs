@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -47,10 +48,10 @@ namespace HomeDashboard
 								devices.Add(deviceName);
 								switch (valuesName) {
 									case "Heating 1":
-										tempByDevice.Add(deviceName, double.Parse(reader.GetString(2)));
+										tempByDevice.Add(deviceName, double.Parse(reader.GetString(2).Replace('.', ',')));
 										break;
 									case "Battery Level":
-										batteryByDevice.Add(deviceName, double.Parse(reader.GetString(2)));
+										batteryByDevice.Add(deviceName, double.Parse(reader.GetString(2).Replace('.', ',')));
 										break;
 								}
 							}
