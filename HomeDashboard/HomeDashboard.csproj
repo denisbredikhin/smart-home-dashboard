@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="PriceAllDaily.aspx" />
     <Content Include="MeterMonthly.ascx" />
     <Content Include="MetersRegistration.aspx" />
     <Content Include="WaterDaily.aspx" />
@@ -73,6 +74,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="PriceAllDaily.aspx.cs">
+      <DependentUpon>PriceAllDaily.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PriceAllDaily.aspx.designer.cs">
+      <DependentUpon>PriceAllDaily.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Handlers\ThermostatsDataHttpHandler.cs" />
     <Compile Include="MeterMonthly.ascx.cs">
       <DependentUpon>MeterMonthly.ascx</DependentUpon>
