@@ -32,15 +32,18 @@ namespace ThermostatSetpointsWatcher
                     var roomWithMaxTemp = roomsStatus.Where(s => s.Setting.Power == "ON")
                         .MaxBy(s => s.Setting.Temperature);
 
+                    double currentValue;
                     if (roomWithMaxTemp == null)
                     {
                         Log("Heating is off in all the rooms");
-                        Thread.Sleep(TimeSpan.FromMinutes(5));
-                        continue;
+                        currentValue = 5;
+                    }
+                    else
+                    {
+                        currentValue = roomWithMaxTemp.Setting.Temperature.Value.Value;
+                        Log("Current max value is: {0} in the room {0}", currentValue, roomWithMaxTemp.Name);
                     }
 
-                    var currentValue = roomWithMaxTemp.Setting.Temperature.Value.Value;
-                    Log("Current max value is: {0} in the room {0}", currentValue, roomWithMaxTemp.Name);
                     if (currentValue > 40)
                     {
                         Log("Current max value is more than 40, so it will be ignored");
