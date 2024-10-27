@@ -13,7 +13,7 @@ namespace ThermostatSetpointsWatcher
 {
     class Program
     {
-        private static float currentMaxValue = -1;
+        private static double currentMaxValue = -1;
         //private const string ComPort = "COM1";
 
         private static void Log(string format, params object[] arg)
@@ -21,48 +21,36 @@ namespace ThermostatSetpointsWatcher
             Console.WriteLine(DateTime.Now + ": " + format, arg);
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var comPort = args[0];
             while (true)
             {
                 try
                 {
-                    var commandText = "SELECT Max(CONVERT(float, REPLACE([Value], ',', '.')))" +
-                                      " FROM [DeviceCurrentValues]" +
-                                      " where ValueName = 'Heating 1'";
+                    var roomsStatus = await Tado.GetRooms();
+                    var roomWithMaxTemp = roomsStatus.Where(s => s.Setting.Power == "ON")
+                        .MaxBy(s => s.Setting.Temperature);
 
-                    float currentValue = -1;
-                    using (var connection = new SqlConnection(Constants.ConnectionString))
+                    if (roomWithMaxTemp == null)
                     {
-                        try
-                        {
-                            connection.Open();
-                            using (var command = connection.CreateCommand())
-                            {
-                                command.CommandText = commandText;
-                                currentValue = Convert.ToSingle(command.ExecuteScalar());
-                            }
-                        }
-                        finally
-                        {
-                            if (connection.State == ConnectionState.Open)
-                                connection.Close();
-                            connection.Dispose();
-                        }
+                        Log("Heating is off in all the rooms");
+                        Thread.Sleep(TimeSpan.FromMinutes(5));
+                        continue;
                     }
 
-                    Log("Current max value is: {0}", currentValue);
+                    var currentValue = roomWithMaxTemp.Setting.Temperature.Value.Value;
+                    Log("Current max value is: {0} in the room {0}", currentValue, roomWithMaxTemp.Name);
                     if (currentValue > 40)
                     {
                         Log("Current max value is more than 40, so it will be ignored");
-                        Thread.Sleep(TimeSpan.FromSeconds(30));
+                        Thread.Sleep(TimeSpan.FromMinutes(5));
                         continue;
                     }
 
                     if (Math.Abs(currentValue - currentMaxValue) < 0.1)
                     {
-                        Thread.Sleep(TimeSpan.FromSeconds(30));
+                        Thread.Sleep(TimeSpan.FromMinutes(5));
                         continue;
                     }
 
@@ -88,12 +76,12 @@ namespace ThermostatSetpointsWatcher
                         boiler.Disconnect();
                         Log("Disconnected from boiler");
                     });
-                    Thread.Sleep(TimeSpan.FromSeconds(30));
+                    Thread.Sleep(TimeSpan.FromMinutes(5));
                 }
                 catch (Exception ex)
                 {
-                    Log(string.Format("Error: {0}", ex.Message));
-                    Log(string.Format("Stacktrace: {0}", ex.StackTrace));
+                    Log($"Error: {ex.Message}");
+                    Log($"Stacktrace: {ex.StackTrace}");
                 }
             }
         }
