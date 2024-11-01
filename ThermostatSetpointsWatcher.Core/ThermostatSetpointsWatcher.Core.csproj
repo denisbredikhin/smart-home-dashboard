@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ViessmannControl\ViessmannControl.csproj" />
   </ItemGroup>
 

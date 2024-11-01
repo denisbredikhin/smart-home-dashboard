@@ -41,7 +41,7 @@ namespace ThermostatSetpointsWatcher
                     else
                     {
                         currentValue = roomWithMaxTemp.Setting.Temperature.Value.Value;
-                        Log("Current max value is: {0} in the room {0}", currentValue, roomWithMaxTemp.Name);
+                        Log("Current max value is: {0} in the room {1}", currentValue, roomWithMaxTemp.Name);
                     }
 
                     if (currentValue > 40)

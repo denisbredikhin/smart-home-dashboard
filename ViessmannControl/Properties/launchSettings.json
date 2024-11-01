@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ViessmannControl": {
+      "commandName": "Project",
+      "commandLineArgs": "COM4"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ThermostatSetpointsWatcher.Core": {
+      "commandName": "Project",
+      "commandLineArgs": "COM4"
+    }
+  }
+}

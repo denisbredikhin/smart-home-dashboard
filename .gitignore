@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/packages/System.IO.Ports.4.4.0
+/ThermostatSetpointsWatcher/obj/Debug
+/HomeDashboard/obj/Debug
+*.user
+/ThermostatSetpointsWatcher.Core/bin/Debug/net8.0
+/ThermostatSetpointsWatcher.Core/obj
+/ViessmannControl/bin/Debug/netstandard2.0
+/ViessmannControl/obj
