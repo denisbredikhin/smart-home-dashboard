@@ -30,7 +30,7 @@ namespace ThermostatSetpointsWatcher
                 {
                     var roomsStatus = await Tado.GetRooms();
                     var roomWithMaxTemp = roomsStatus.Where(s => s.Setting.Power == "ON")
-                        .MaxBy(s => s.Setting.Temperature);
+                        .MaxBy(s => s.Setting.Temperature.Value);
 
                     double currentValue;
                     if (roomWithMaxTemp == null)
