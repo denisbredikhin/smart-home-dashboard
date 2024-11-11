@@ -119,12 +119,20 @@ namespace ViessmannControl
 	    }
 
 	    private Action onConnected;
-	    public void Connect(Action onConnected)
+	    public void Connect(Action onConnected, Action<Exception> onFaulted)
 	    {
 		    this.onConnected = onConnected;
+			try
+			{
 				t1 = new Timer(50);
-		    t1.Elapsed += (sender, args) => Inner_Connect(); // Intervall festlegen, hier 15 ms
+				t1.Elapsed += (sender, args) => Inner_Connect(); // Intervall festlegen, hier 15 ms
 				t1.Start();
+			}
+			catch (Exception e) 
+			{
+				Disconnect();
+                onFaulted(e);  
+            }
 		    //t1.Tick += (sender, args) => Inner_Connect(); // Eventhandler ezeugen der beim Timerablauf aufgerufen wird
 
 		    //Inner_Connect();

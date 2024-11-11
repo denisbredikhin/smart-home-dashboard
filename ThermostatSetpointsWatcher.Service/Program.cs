@@ -10,7 +10,7 @@ builder.Services.AddWindowsService(options =>
     options.ServiceName = "Tado - Viessmann integration service";
 });
 
-var logFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "TadoViessmannIntegrationService", "logs", "log.txt");
+var logFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "TadoViessmannIntegrationService", "logs", "SyncService.log");
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File(logFilePath, rollingInterval: RollingInterval.Day)
