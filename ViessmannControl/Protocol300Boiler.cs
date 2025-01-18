@@ -119,13 +119,23 @@ namespace ViessmannControl
 	    }
 
 	    private Action onConnected;
-	    public void Connect(Action onConnected, Action<Exception> onFaulted)
+        public void Connect(Action onConnected, Action<Exception> onFaulted)
 	    {
 		    this.onConnected = onConnected;
-			try
+            try
 			{
 				t1 = new Timer(50);
-				t1.Elapsed += (sender, args) => Inner_Connect(); // Intervall festlegen, hier 15 ms
+				t1.Elapsed += (sender, args) =>
+				{
+					try
+					{
+						Inner_Connect();
+					}
+					catch (Exception e)
+					{
+						onFaulted(e);
+					}
+				};
 				t1.Start();
 			}
 			catch (Exception e) 
@@ -283,11 +293,11 @@ namespace ViessmannControl
 		    //isConnected = true;
 	    }
 
-	    public void Disconnect()
-	    {
-				t1.Stop();
-				serialPort.Close();
-	    }
+		public void Disconnect()
+		{
+			t1.Stop();
+			serialPort.Close();
+		}
 
 	    public Protocol300Boiler(Protocol300BoilerConnectionConfiguration config)
 	    {

@@ -13,3 +13,6 @@
 /ViessmannControl/obj
 /ThermostatSetpointsWatcher.Service/obj
 /ThermostatSetpointsWatcher.Service/bin/Debug/net8.0
+/HomeDashboard/obj/Release
+/ThermostatSetpointsWatcher/obj/Release
+/Viessmann300/obj

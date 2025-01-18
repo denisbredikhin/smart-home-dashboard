@@ -12,7 +12,7 @@ namespace ThermostatSetpointsWatcher.Core
 {
     public class TadoViessmanSynchronizer(string comPort, ILogger<TadoViessmanSynchronizer> logger)
     {
-        private static double currentMaxValue = -1;                
+        private static double currentMaxValue = -1;
 
         public async Task SynchronizeHouseTemperature() 
         {
@@ -34,7 +34,7 @@ namespace ThermostatSetpointsWatcher.Core
 
             if (currentValue > 40)
             {
-                logger.LogInformation("Current max value is more than 40, so it will be ignored");                
+                logger.LogInformation("Current max value is more than 40, so it will be ignored");
                 return;
             }
 
@@ -63,6 +63,9 @@ namespace ThermostatSetpointsWatcher.Core
                 logger.LogInformation("Room temperature is set, about to disconnect from boiler");
                 boiler.Disconnect();
                 logger.LogInformation("Disconnected from boiler");
+                tcs.SetResult();
+            }, e => {
+                logger.LogError(e, "Error during connecting to boiler");
                 tcs.SetResult();
             });
             await tcs.Task;
